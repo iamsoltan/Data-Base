@@ -1,0 +1,29 @@
+=>  Retrouver la liste de tous les ﬁlms
+SELECT *FROM FILM
+
+=> Retrouver la liste des ﬁlms dont la longueur dépasse 180 min
+SELECT *FROM FILM WHERE DUREE >180
+
+=>  Donner la liste de tous les genres de ﬁlm. 
+SELECT DISTINCT GENRE FROM FILM
+
+=>  Donner le nombre de ﬁlms par genre. 
+SELECT GENRE, COUNT(*) FROM FILM GROUP BY GENRE
+
+=> Trouver le/les titre(s) et l’/les ann´ee(s) du/des ﬁlm(s) le(s) plus long(s). 
+SELECT TITRE, ANNEE FROM FILM WHERE DUREE = (SELECT MAX(DUREE) FROM FILM)
+
+=> Trouver tous les ”couples d’acteurs”, i.e., les acteurs ayant joués le ”Premier” rˆole dans un mˆeme ﬁlm (sans doublons).
+
+=>  Trouver le nom des personnes qui ne sont ni agents, ni acteurs et ni réalisateurs. 
+
+=>  Donner le nom et le prénom des réalisateurs qui ont joué dans au moins un de leurs propres ﬁlms 
+SELECT DISTINCT P.PRENOM, P.NOM FROM PERSONNE P, FILM F, DISTRIBUTION D 
+WHERE P.NUMP = F.REALISATEUR AND WHERE F.NUMF = D.NUMF AND D.NUMA = F.REALISATEUR
+
+=>  Quel est le total des salaires des acteurs du ﬁlm “Nuits blanches à Seattle”. 
+SELECT SUM(D.SALAIRE) FROM FILM F, DISTRIBUTION D WHERE F.NUMF = D.NUMF AND F.TITRE = “Nuits blanches à Seattle”
+
+=>  Pour chaque ﬁlm de Spielberg (titre, annee), donner le total des salaires des acteurs.
+SELECT F.TITRE, F.ANNEE, SUM(D.SALAIRE) FROM FILM F, DISTRIBUTION D, PERSONNE P WHERE F.NUMF = D.NUMF 
+AND F.REALISATEUR = P.NUMP AND P.NOM = "Spielberg" GROUP BY F.TITRE, F.ANNEE
